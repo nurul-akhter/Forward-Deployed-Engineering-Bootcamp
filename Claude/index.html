@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forward — Forward Deployed Engineering</title>
+  <meta name="description" content="Forward embeds elite engineers inside your team to ship production software, fast.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="logo"><span class="logo-mark">F</span>Forward</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#services">Services</a>
+        <a href="#process">How it works</a>
+        <a href="#results">Results</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn btn-sm">Book a call</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <span class="pill reveal">Forward Deployed Engineering</span>
+      <h1 class="reveal">Engineers who <span class="grad">embed with you</span> and ship what matters.</h1>
+      <p class="lead reveal">We place senior engineers directly inside your team and your customers' environments, turning messy, real-world problems into production software in weeks, not quarters.</p>
+      <div class="cta reveal">
+        <a href="#contact" class="btn">Start a project</a>
+        <a href="#process" class="btn btn-ghost">See how it works</a>
+      </div>
+      <div class="hero-card reveal">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <pre><code><span class="c">// day 1: on-site, in your stack</span>
+<span class="k">const</span> engagement = <span class="k">await</span> forward.<span class="f">embed</span>({
+  team:    <span class="s">"your-org/platform"</span>,
+  goal:    <span class="s">"ship to production"</span>,
+  timeline: <span class="s">"6 weeks"</span>,
+});
+<span class="c">// → status: <span class="ok">shipping</span></span></code></pre>
+      </div>
+    </section>
+
+    <section class="logos container reveal">
+      <p>Trusted by teams in</p>
+      <ul>
+        <li>Healthcare</li><li>Fintech</li><li>Logistics</li><li>Energy</li><li>Public Sector</li>
+      </ul>
+    </section>
+
+    <section class="section container" id="services">
+      <div class="head reveal">
+        <span class="eyebrow">Services</span>
+        <h2>Everything between a problem and production</h2>
+      </div>
+      <div class="grid grid-3">
+        <article class="card reveal"><div class="ico">⚡</div><h3>Embedded Engineering</h3><p>Senior engineers join your standups, your repos, and your on-call rotation from day one.</p></article>
+        <article class="card reveal"><div class="ico">🧩</div><h3>Custom Integrations</h3><p>Connect legacy systems, data sources and third-party platforms into one reliable workflow.</p></article>
+        <article class="card reveal"><div class="ico">🤖</div><h3>AI &amp; Data Solutions</h3><p>Deploy LLM and ML capabilities against your real data, with evaluation and guardrails built in.</p></article>
+        <article class="card reveal"><div class="ico">🚀</div><h3>Rapid Prototyping</h3><p>Working software in front of users in days, so decisions are made on evidence, not slides.</p></article>
+        <article class="card reveal"><div class="ico">🛡️</div><h3>Security &amp; Compliance</h3><p>SOC 2, HIPAA and on-prem or air-gapped deployments handled as part of delivery.</p></article>
+        <article class="card reveal"><div class="ico">📈</div><h3>Handover &amp; Enablement</h3><p>Documentation, runbooks and training so your team owns everything we build.</p></article>
+      </div>
+    </section>
+
+    <section class="section container" id="process">
+      <div class="head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2>From kickoff to production in four steps</h2>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><b>01</b><h3>Discover</h3><p>We sit with your users and map the real problem, constraints and success metrics.</p></li>
+        <li class="reveal"><b>02</b><h3>Embed</h3><p>Engineers integrate into your team, tooling and release process.</p></li>
+        <li class="reveal"><b>03</b><h3>Ship</h3><p>Weekly production releases with measurable progress every sprint.</p></li>
+        <li class="reveal"><b>04</b><h3>Hand over</h3><p>Your team takes full ownership, with docs and training in place.</p></li>
+      </ol>
+    </section>
+
+    <section class="section container" id="results">
+      <div class="stats">
+        <div class="stat reveal"><strong data-count="120" data-suffix="+">0</strong><span>Projects delivered</span></div>
+        <div class="stat reveal"><strong data-count="6" data-suffix=" wks">0</strong><span>Avg. time to production</span></div>
+        <div class="stat reveal"><strong data-count="98" data-suffix="%">0</strong><span>Client retention</span></div>
+        <div class="stat reveal"><strong data-count="40" data-suffix="+">0</strong><span>Embedded engineers</span></div>
+      </div>
+      <div class="grid grid-2 quotes">
+        <blockquote class="card reveal">“Forward engineers felt like part of our team within a week. We shipped in six weeks what we'd scoped for two quarters.”<cite>— VP Engineering, Logistics</cite></blockquote>
+        <blockquote class="card reveal">“They worked inside our compliance constraints and still moved faster than anyone we've hired.”<cite>— CTO, Healthcare</cite></blockquote>
+      </div>
+    </section>
+
+    <section class="section container" id="faq">
+      <div class="head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq reveal">
+        <details open><summary>What is forward deployed engineering?</summary><p>Engineers work directly with you and your end users, on-site or embedded remotely, building and deploying software in the real environment instead of handing over specs.</p></details>
+        <details><summary>How fast can you start?</summary><p>Most engagements kick off within two weeks of the first call.</p></details>
+        <details><summary>Do you work in our tech stack?</summary><p>Yes. We adapt to your languages, cloud, and tooling, including on-prem and restricted environments.</p></details>
+        <details><summary>How is pricing structured?</summary><p>Monthly per embedded engineer, or fixed-scope for well-defined outcomes. No long lock-in.</p></details>
+      </div>
+    </section>
+
+    <section class="section container" id="contact">
+      <div class="contact reveal">
+        <div>
+          <h2>Let's build something that ships.</h2>
+          <p>Tell us about your problem. We'll reply within one business day.</p>
+        </div>
+        <form id="form" novalidate>
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Work email" required>
+          <textarea name="msg" rows="4" placeholder="What are you trying to solve?" required></textarea>
+          <button class="btn" type="submit">Send message</button>
+          <p class="form-note" id="formNote" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container foot-inner">
+      <span>© <span id="year"></span> Forward. All rights reserved.</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

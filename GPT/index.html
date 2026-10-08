@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FDE — Field Development Engineering</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0b1728;
+      --card: rgba(255, 255, 255, 0.055);
+      --card-hover: rgba(255, 255, 255, 0.085);
+      --white: #ffffff;
+      --text: #d6deea;
+      --muted: #8e9bad;
+      --line: rgba(255, 255, 255, 0.1);
+
+      --primary: #48d7b0;
+      --primary-dark: #25b992;
+      --blue: #5c8cff;
+
+      --radius: 22px;
+      --container: 1180px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(
+          circle at 75% 10%,
+          rgba(72, 215, 176, 0.14),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 15% 35%,
+          rgba(92, 140, 255, 0.1),
+          transparent 25%
+        ),
+        var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(7, 17, 31, 0.86);
+      backdrop-filter: blur(18px);
+      border-color: var(--line);
+    }
+
+    .nav-inner {
+      width: min(var(--container), calc(100% - 40px));
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Manrope", sans-serif;
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #06151a;
+      font-weight: 900;
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        #8af2d5
+      );
+      box-shadow: 0 8px 30px rgba(72, 215, 176, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      padding: 12px 19px;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
+
+    .btn-outline {
+      color: var(--white);
+      background: transparent;
+      border: 1px solid var(--line);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,.06);
+    }
+
+    .btn-primary {
+      color: #031611;
+      background: var(--primary);
+      box-shadow: 0 10px 30px rgba(72, 215, 176, .2);
+    }
+
+    .btn-primary:hover {
+      background: #72e6c5;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 35px rgba(72, 215, 176, .3);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: none;
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+      position: relative;
+      min-height: 790px;
+      padding: 170px 0 110px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      opacity: .3;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 55px 55px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      border: 1px solid rgba(72,215,176,.2);
+      border-radius: 100px;
+      background: rgba(72,215,176,.06);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 5px rgba(72,215,176,.08);
+    }
+
+    h1 {
+      font-family: "Manrope", sans-serif;
+      font-size: clamp(46px, 6.5vw, 82px);
+      line-height: 1.02;
+      letter-spacing: -4px;
+      max-width: 850px;
+      margin-bottom: 27px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        90deg,
+        var(--primary),
+        #82e8ff
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-description {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 650px;
+      line-height: 1.75;
+      margin-bottom: 34px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 13px;
+      flex-wrap: wrap;
+    }
+
+    .btn-large {
+      padding: 15px 23px;
+      border-radius: 14px;
+    }
+
+    .hero-visual {
+      position: absolute;
+      right: 2%;
+      top: 28%;
+      width: 380px;
+      height: 380px;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      inset: 40px;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          rgba(72,215,176,.55),
+          rgba(32,95,107,.2) 38%,
+          transparent 68%
+        );
+      box-shadow:
+        0 0 100px rgba(72,215,176,.16),
+        inset 0 0 70px rgba(72,215,176,.1);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .ring {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(72,215,176,.16);
+      border-radius: 50%;
+      transform: rotateX(65deg) rotateZ(25deg);
+      animation: spin 18s linear infinite;
+    }
+
+    .ring:nth-child(2) {
+      inset: 35px;
+      transform: rotateX(65deg) rotateZ(-30deg);
+      animation-duration: 13s;
+    }
+
+    .ring:nth-child(3) {
+      inset: 75px;
+      transform: rotateY(65deg);
+      animation-duration: 10s;
+    }
+
+    @keyframes spin {
+      from { transform: rotateX(65deg) rotateZ(0deg); }
+      to { transform: rotateX(65deg) rotateZ(360deg); }
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    /* ================= TRUST ================= */
+
+    .trust {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 27px 0;
+      background: rgba(255,255,255,.015);
+    }
+
+    .trust-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .trust-label {
+      color: #657387;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .clients {
+      display: flex;
+      gap: 42px;
+      align-items: center;
+      color: #718095;
+      font-family: "Manrope";
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    /* ================= SECTIONS ================= */
+
+    section {
+      padding: 115px 0;
+    }
+
+    .section-heading {
+      max-width: 680px;
+      margin-bottom: 55px;
+    }
+
+    .section-label {
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    h2 {
+      font-family: "Manrope";
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -2px;
+      margin-bottom: 17px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    /* ================= SERVICES ================= */
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service-card {
+      position: relative;
+      min-height: 270px;
+      padding: 30px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      transition: .3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(72,215,176,.25);
+      background: var(--card-hover);
+      box-shadow: 0 25px 70px rgba(0,0,0,.22);
+    }
+
+    .service-number {
+      position: absolute;
+      right: 22px;
+      top: 18px;
+      color: rgba(255,255,255,.05);
+      font-family: "Manrope";
+      font-size: 70px;
+      font-weight: 800;
+    }
+
+    .service-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--primary);
+      background: rgba(72,215,176,.09);
+      margin-bottom: 24px;
+      font-size: 22px;
+    }
+
+    .service-card h3 {
+      font-family: "Manrope";
+      font-size: 20px;
+      margin-bottom: 11px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ================= ABOUT / STATS ================= */
+
+    .about {
+      background:
+        linear-gradient(
+          180deg,
+          transparent,
+          rgba(255,255,255,.015),
+          transparent
+        );
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+
+    .check-list {
+      list-style: none;
+      margin-top: 27px;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: 12px;
+      margin: 13px 0;
+      color: #cdd7e4;
+      font-size: 14px;
+    }
+
+    .check {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 21px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #061b16;
+      background: var(--primary);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .stat-card {
+      padding: 32px 28px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .stat-value {
+      font-family: "Manrope";
+      font-size: 43px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      color: var(--white);
+    }
+
+    .stat-value span {
+      color: var(--primary);
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    /* ================= PROCESS ================= */
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .process-card {
+      padding: 28px;
+      border-top: 2px solid rgba(72,215,176,.25);
+      background: rgba(255,255,255,.025);
+      border-radius: 0 0 18px 18px;
+    }
+
+    .process-step {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 22px;
+    }
+
+    .process-card h3 {
+      font-family: "Manrope";
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .process-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ================= CTA ================= */
+
+    .cta-section {
+      padding: 80px 0 120px;
+    }
+
+    .cta {
+      position: relative;
+      overflow: hidden;
+      padding: 75px 70px;
+      border-radius: 28px;
+      border: 1px solid rgba(72,215,176,.18);
+      background:
+        radial-gradient(
+          circle at 80% 30%,
+          rgba(72,215,176,.18),
+          transparent 30%
+        ),
+        linear-gradient(
+          135deg,
+          rgba(72,215,176,.08),
+          rgba(92,140,255,.08)
+        );
+    }
+
+    .cta h2 {
+      max-width: 650px;
+    }
+
+    .cta p {
+      max-width: 570px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 55px 0 30px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      padding-bottom: 45px;
+    }
+
+    .footer-brand {
+      max-width: 330px;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 16px;
+      line-height: 1.7;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 75px;
+    }
+
+    .footer-column h4 {
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 10px 0;
+    }
+
+    .footer-column a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: #617084;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ================= REVEAL ================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 950px) {
+      .nav-links {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-actions .btn-outline {
+        display: none;
+      }
+
+      .hero {
+        min-height: 720px;
+      }
+
+      .hero-visual {
+        opacity: .35;
+        right: -100px;
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-grid {
+        gap: 45px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container,
+      .nav-inner {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .nav-actions .btn-primary {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 135px;
+        min-height: 690px;
+      }
+
+      h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .hero-visual {
+        width: 280px;
+        height: 280px;
+        top: 48%;
+        right: -100px;
+      }
+
+      .trust-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .clients {
+        width: 100%;
+        justify-content: space-between;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      section {
+        padding: 80px 0;
+      }
+
+      .services-grid,
+      .process-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta {
+        padding: 45px 25px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        gap: 45px;
+        flex-wrap: wrap;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= NAVIGATION ================= -->
+
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+
+      <a href="#" class="logo">
+        <span class="logo-mark">F</span>
+        FDE
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#process">Approach</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-outline">Talk to us</a>
+        <a href="#contact" class="btn btn-primary">Start a project</a>
+        <button class="menu-btn" id="menuBtn">☰</button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-grid"></div>
+
+      <div class="container">
+
+        <div class="hero-content reveal">
+
+          <div class="eyebrow">
+            <span class="pulse"></span>
+            Engineering better field outcomes
+          </div>
+
+          <h1>
+            Engineering
+            <span class="gradient-text">possibility</span>
+            into performance.
+          </h1>
+
+          <p class="hero-description">
+            We help organizations turn complex field challenges into
+            practical, scalable solutions through engineering,
+            technology, data and execution.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary btn-large">
+              Start a conversation →
+            </a>
+
+            <a href="#services" class="btn btn-outline btn-large">
+              Explore our services
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="hero-visual">
+        <div class="orb"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+
+    </section>
+
+
+    <!-- ================= TRUST ================= -->
+
+    <div class="trust">
+      <div class="container trust-inner">
+
+        <span class="trust-label">
+          Trusted by teams building what matters
+        </span>
+
+        <div class="clients">
+          <span>NEXA</span>
+          <span>VERTEX</span>
+          <span>ORBIT</span>
+          <span>ARC</span>
+          <span>STRATA</span>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section id="services">
+
+      <div class="container">
+
+        <div class="section-heading reveal">
+          <div class="section-label">What we do</div>
+
+          <h2>
+            From field complexity
+            to clear execution.
+          </h2>
+
+          <p>
+            Our multidisciplinary team combines engineering expertise,
+            digital capabilities and operational experience to deliver
+            measurable results.
+          </p>
+        </div>
+
+
+        <div class="services-grid">
+
+          <article class="service-card reveal">
+            <span class="service-number">01</span>
+
+            <div class="service-icon">⌁</div>
+
+            <h3>Field Engineering</h3>
+
+            <p>
+              Engineering support, field studies and technical
+              solutions designed around real operational conditions.
+            </p>
+          </article>
+
+
+          <article class="service-card reveal">
+            <span class="service-number">02</span>
+
+            <div class="service-icon">◈</div>
+
+            <h3>Digital Solutions</h3>
+
+            <p>
+              Connected platforms, automation and intelligent tools
+              that make field operations faster and more transparent.
+            </p>
+          </article>
+
+
+          <article class="service-card reveal">
+            <span class="service-number">03</span>
+
+            <div class="service-icon">↗</div>
+
+            <h3>Project Delivery</h3>
+
+            <p>
+              From planning to implementation, we provide structured
+              execution focused on cost, quality and schedule.
+            </p>
+          </article>
+
+
+          <article class="service-card reveal">
+            <span class="service-number">04</span>
+
+            <div class="service-icon">◎</div>
+
+            <h3>Asset Optimization</h3>
+
+            <p>
+              Data-driven strategies that improve asset utilization,
+              reliability and long-term operational performance.
+            </p>
+          </article>
+
+
+          <article class="service-card reveal">
+            <span class="service-number">05</span>
+
+            <div class="service-icon">✦</div>
+
+            <h3>Technical Advisory</h3>
+
+            <p>
+              Independent technical insight that helps leadership
+              teams make confident investment and engineering decisions.
+            </p>
+          </article>
+
+
+          <article class="service-card reveal">
+            <span class="service-number">06</span>
+
+            <div class="service-icon">↻</div>
+
+            <h3>Continuous Improvement</h3>
+
+            <p>
+              Practical improvement programs that turn operational
+              lessons into repeatable and sustainable performance.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about" id="about">
+
+      <div class="container about-grid">
+
+        <div class="about-text reveal">
+
+          <div class="section-label">Why FDE</div>
+
+          <h2>
+            Built for the realities
+            of the field.
+          </h2>
+
+          <p>
+            Great engineering is not just about creating technically
+            correct solutions. It is about creating solutions that
+            work in the real world.
+          </p>
+
+          <p>
+            FDE brings together technical expertise, field experience
+            and digital thinking to bridge the gap between strategy
+            and execution.
+          </p>
+
+          <ul class="check-list">
+            <li>
+              <span class="check">✓</span>
+              Practical engineering-first approach
+            </li>
+
+            <li>
+              <span class="check">✓</span>
+              Data-backed decision making
+            </li>
+
+            <li>
+              <span class="check">✓</span>
+              Safety and quality at the core
+            </li>
+
+            <li>
+              <span class="check">✓</span>
+              Solutions designed for measurable impact
+            </li>
+          </ul>
+
+        </div>
+
+
+        <div class="stats reveal">
+
+          <div class="stat-card">
+            <div class="stat-value">
+              <span data-count="15">0</span>+
+            </div>
+            <p>Years of combined expertise</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-value">
+              <span data-count="120">0</span>+
+            </div>
+            <p>Projects delivered</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-value">
+              <span data-count="24">0</span>
+            </div>
+            <p>Markets supported</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-value">
+              <span data-count="98">0</span>%
+            </div>
+            <p>Client satisfaction</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PROCESS ================= -->
+
+    <section id="process">
+
+      <div class="container">
+
+        <div class="section-heading reveal">
+          <div class="section-label">Our approach</div>
+
+          <h2>
+            Simple process.
+            Serious outcomes.
+          </h2>
+
+          <p>
+            We keep our delivery model straightforward so teams can
+            move from uncertainty to execution without unnecessary
+            complexity.
+          </p>
+        </div>
+
+
+        <div class="process-grid">
+
+          <div class="process-card reveal">
+            <div class="process-step">01 — DISCOVER</div>
+            <h3>Understand</h3>
+            <p>
+              We listen, investigate the field environment and define
+              the real problem behind the initial requirement.
+            </p>
+          </div>
+
+          <div class="process-card reveal">
+            <div class="process-step">02 — DESIGN</div>
+            <h3>Engineer</h3>
+            <p>
+              We develop practical solutions using engineering,
+              technology and data.
+            </p>
+          </div>
+
+          <div class="process-card reveal">
+            <div class="process-step">03 — DELIVER</div>
+            <h3>Execute</h3>
+            <p>
+              Our teams translate the solution into an actionable
+              implementation plan and support delivery.
+            </p>
+          </div>
+
+          <div class="process-card reveal">
+            <div class="process-step">04 — OPTIMIZE</div>
+            <h3>Improve</h3>
+            <p>
+              We measure outcomes, learn from operations and identify
+              opportunities for continuous improvement.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta-section" id="contact">
+
+      <div class="container">
+
+        <div class="cta reveal">
+
+          <div class="section-label">Let's build what's next</div>
+
+          <h2>
+            Have a complex field
+            challenge?
+          </h2>
+
+          <p>
+            Tell us what you're trying to achieve. Our team will help
+            you identify the right technical and delivery approach.
+          </p>
+
+          <a href="mailto:hello@fde.example"
+             class="btn btn-primary btn-large">
+            Talk to an FDE expert →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo">
+            <span class="logo-mark">F</span>
+            FDE
+          </a>
+
+          <p>
+            Engineering, technology and field expertise working
+            together to deliver better outcomes.
+          </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+          <div class="footer-column">
+            <h4>Company</h4>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#process">Approach</a>
+          </div>
+
+          <div class="footer-column">
+            <h4>Services</h4>
+            <a href="#services">Engineering</a>
+            <a href="#services">Digital</a>
+            <a href="#services">Advisory</a>
+          </div>
+
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <a href="#contact">Contact</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Careers</a>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+        <span>© 2026 FDE. All rights reserved.</span>
+        <span>Engineering the future, in the field.</span>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    /* Navbar background on scroll */
+
+    const navbar = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 30) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+
+    /* Scroll reveal animation */
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add("active");
+
+            revealObserver.unobserve(entry.target);
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+
+    /* Animated statistics */
+
+    const counters =
+      document.querySelectorAll("[data-count]");
+
+    const counterObserver = new IntersectionObserver(
+      (entries, observer) => {
+
+        entries.forEach((entry) => {
+
+          if (!entry.isIntersecting) return;
+
+          const counter = entry.target;
+          const target =
+            Number(counter.dataset.count);
+
+          let current = 0;
+          const duration = 1400;
+          const start = performance.now();
+
+          function update(time) {
+
+            const progress =
+              Math.min((time - start) / duration, 1);
+
+            const eased =
+              1 - Math.pow(1 - progress, 3);
+
+            current =
+              Math.floor(target * eased);
+
+            counter.textContent = current;
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            } else {
+              counter.textContent = target;
+            }
+          }
+
+          requestAnimationFrame(update);
+
+          observer.unobserve(counter);
+
+        });
+
+      },
+      {
+        threshold: 0.8
+      }
+    );
+
+
+    counters.forEach((counter) => {
+      counterObserver.observe(counter);
+    });
+
+
+    /* Mobile navigation */
+
+    const menuBtn =
+      document.getElementById("menuBtn");
+
+    const navLinks =
+      document.querySelector(".nav-links");
+
+
+    menuBtn.addEventListener("click", () => {
+
+      const isOpen =
+        navLinks.classList.toggle("mobile-open");
+
+      if (isOpen) {
+
+        navLinks.style.display = "flex";
+
+        navLinks.style.position = "absolute";
+        navLinks.style.top = "70px";
+        navLinks.style.left = "14px";
+        navLinks.style.right = "14px";
+        navLinks.style.padding = "20px";
+
+        navLinks.style.flexDirection = "column";
+        navLinks.style.gap = "18px";
+
+        navLinks.style.border =
+          "1px solid rgba(255,255,255,.1)";
+
+        navLinks.style.borderRadius = "16px";
+
+        navLinks.style.background =
+          "rgba(7,17,31,.96)";
+
+        navLinks.style.backdropFilter =
+          "blur(20px)";
+
+      } else {
+
+        navLinks.removeAttribute("style");
+
+      }
+
+    });
+
+
+    /* Close mobile menu after clicking a link */
+
+    document.querySelectorAll(".nav-links a")
+      .forEach(link => {
+
+        link.addEventListener("click", () => {
+
+          navLinks.classList.remove("mobile-open");
+          navLinks.removeAttribute("style");
+
+        });
+
+      });
+
+  </script>
+
+</body>
+</html>
