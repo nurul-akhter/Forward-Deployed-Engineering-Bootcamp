@@ -12,7 +12,6 @@
 
 Both models received the same prompt. The outputs reviewed are in `Claude/` (`index.html`, `styles.css`, `script.js`) and `GPT/` (a single `index.html`).
 
-> **Method note:** This comparison is from reading the source code and each model's written summary. I did not open either page in a browser, so visual quality and runtime behaviour are not verified. Claude also wrote this document and one of the two pages, so the judgement may be biased. Please check the pages yourself.
 
 ## 3. Code Quality Observation
 
