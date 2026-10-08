@@ -50,4 +50,4 @@ All of the above requires human verification.
 - **Accuracy:** Both invented placeholder stats and flagged them only in chat. Claude's fake testimonials and compliance claims are more serious than GPT's fake logos. GPT's ring-animation override is a visible bug. Claude's reduced-motion claim is slightly overstated. Roughly even.
 - **Functionality:** Claude adds a validated contact form, an FAQ and better accessibility attributes. GPT has the richer visual design (orb animation, glass cards, fuller footer).
 
-**Caveats:** If you prefer GPT's visual style, its page is the stronger design, and the main thing to fix is its FDE definition. Open both pages at desktop and phone widths before finalising this decision.
+**Caveats:** If you prefer GPT's visual style, its page is the stronger design, and the main thing to fix is its FDE definition. 
